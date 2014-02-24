@@ -3,7 +3,9 @@ angular-off-click
 
 Its like click, but when you don't click on your element.
 
-For now, it requires jQuery beause angular.element doesn't have all of the things and I just wiped it together.  Eventually I will replace the jQuery things (`parents`, `filter`, `add`).
+<h4>Feautes<h4>
+Ability to choose elements outside of your element that will not trigger the `off-click` event.<br />
+Ability to pass an expression to determine of the `off-click` event should trigger.
 
 <h4>Usage/Example</h4>
 Here we have a slide out navigation div that will appear when the user clicks a button. We want the div to go away when they click off of it (`off-click`).  We also want to make sure the button that triggers the div to open, also does initial close it (`off-click-filter`).
