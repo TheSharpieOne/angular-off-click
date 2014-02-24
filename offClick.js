@@ -17,22 +17,23 @@ app.directive('offClick', ['$document', function ($document) {
             offClickIf: '&'
         },
         link: function (scope, elm, attr) {
-    
+
             if (attr.offClickIf) {
-                scope.$watch(scope.offClickIf, function (newVal) {
-                        if (newVal) {
-                            $document.bind('click', handler);
+                scope.$watch(scope.offClickIf, function (newVal, oldVal) {
+                        if (newVal && !oldVal) {
+                            $document.on('click', handler);
                         } else {
-                            $document.unbind('click', handler);
+                            $document.off('click', handler);
                         }
                     }
                 );
             } else {
-                $document.bind('click', handler);
+                $document.on('click', handler);
             }
-    
+
             function handler(event) {
-                if (!(elm[0].contains(event.target) || targetInFilter(event.target, attr.offClickFilter))) {
+                var target = event.target || event.srcElement;
+                if (!(elm[0].contains(target) || targetInFilter(target, attr.offClickFilter))) {
                     scope.$apply(scope.offClick());
                 }
             }
