@@ -22,7 +22,7 @@ app.directive('offClick', ['$document', function ($document) {
                 scope.$watch(scope.offClickIf, function (newVal, oldVal) {
                         if (newVal && !oldVal) {
                             $document.on('click', handler);
-                        } else {
+                        } else if(!newVal){
                             $document.off('click', handler);
                         }
                     }
