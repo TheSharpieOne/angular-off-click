@@ -1,5 +1,15 @@
 var app = angular.module('offClick',[]);
 app.directive('offClick', ['$document', function ($document) {
+        
+    function targetInFilter(target,filter){
+        if(!target || !filter) return false;
+        var elms = angular.element(filter);
+        var elmsLen = elms.length;
+        for (var i = 0; i< elmsLen; ++i)
+            if(elms[i].contains(target)) return true;
+        return false;
+    }
+    
     return {
         restrict: 'A',
         scope: {
@@ -7,9 +17,9 @@ app.directive('offClick', ['$document', function ($document) {
             offClickIf: '&'
         },
         link: function (scope, elm, attr) {
-            $document.on('click',function(e){
+            $document.on('click',function(event){
                 if(attr.offClickIf && !scope.offClickIf()) return;
-                if ($(e.target).parents().add(e.target).filter(elm.add($(attr.offClickFilter))).length === 0){
+                if (!(elm[0].contains(event.target) || targetInFilter(event.target, attr.offClickFilter))){
                     scope.$apply(scope.offClick());
                 }
             });
