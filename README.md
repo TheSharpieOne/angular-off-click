@@ -3,7 +3,7 @@ angular-off-click
 
 Its like click, but when you don't click on your element.
 
-<h4>Feautes<h4>
+<h4>Other Feautes</h4>
 Ability to choose elements outside of your element that will not trigger the `off-click` event.<br />
 Ability to pass an expression to determine of the `off-click` event should trigger.
 
