@@ -1,5 +1,5 @@
-var app = angular.module('offClick',[]);
-app.directive('offClick', ['$document', function ($document) {
+angular.module('offClick',[])
+.directive('offClick', ['$document', function ($document) {
         
     function targetInFilter(target,filter){
         if(!target || !filter) return false;
