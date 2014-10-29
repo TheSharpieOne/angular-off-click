@@ -36,6 +36,10 @@ angular.module('offClick',[])
             });
 
             function handler(event) {
+                // This filters out artificial click events. Example: If you hit enter on a form to submit it, an
+                // artificial click event gets triggered on the form's submit button.
+                if (event.pageX == 0 && event.pageY == 0) return;
+                
                 var target = event.target || event.srcElement;
                 if (!(elm[0].contains(target) || targetInFilter(target, attr.offClickFilter))) {
                     scope.$apply(scope.offClick());
