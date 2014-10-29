@@ -31,6 +31,10 @@ angular.module('offClick',[])
                 $document.on('click', handler);
             }
 
+            scope.$on('$destroy', function() {
+                $document.off('click', handler);
+            });
+
             function handler(event) {
                 var target = event.target || event.srcElement;
                 if (!(elm[0].contains(target) || targetInFilter(target, attr.offClickFilter))) {
