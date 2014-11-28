@@ -3,7 +3,7 @@ angular.module('offClick',[])
         
     function targetInFilter(target,filter){
         if(!target || !filter) return false;
-        var elms = angular.element(filter);
+        var elms = angular.element(document.querySelectorAll(filter));
         var elmsLen = elms.length;
         for (var i = 0; i< elmsLen; ++i)
             if(elms[i].contains(target)) return true;
