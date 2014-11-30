@@ -1,5 +1,5 @@
 angular.module('offClick',[])
-.directive('offClick', ['$document', function ($document) {
+.directive('offClick', ['$document', '$timeout', function ($document, $timeout) {
         
     function targetInFilter(target,filter){
         if(!target || !filter) return false;
@@ -21,7 +21,9 @@ angular.module('offClick',[])
             if (attr.offClickIf) {
                 scope.$watch(scope.offClickIf, function (newVal, oldVal) {
                         if (newVal && !oldVal) {
-                            $document.on('click', handler);
+                            $timeout(function() {
+                                $document.on('click', handler);
+                            });
                         } else if(!newVal){
                             $document.off('click', handler);
                         }
