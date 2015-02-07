@@ -1,6 +1,6 @@
 angular.module('offClick',[])
 .directive('offClick', ['$document', '$timeout', function ($document, $timeout) {
-        
+
     function targetInFilter(target,filter){
         if(!target || !filter) return false;
         var elms = angular.element(document.querySelectorAll(filter));
@@ -9,7 +9,7 @@ angular.module('offClick',[])
             if(elms[i].contains(target)) return true;
         return false;
     }
-    
+
     return {
         restrict: 'A',
         scope: {
@@ -37,13 +37,18 @@ angular.module('offClick',[])
                 $document.off('click', handler);
             });
 
+            var offClickFilter;
+            attrs.$observe('offClickFilter', function(value) {
+                offClickFilter = value;
+            });
+
             function handler(event) {
                 // This filters out artificial click events. Example: If you hit enter on a form to submit it, an
                 // artificial click event gets triggered on the form's submit button.
                 if (event.pageX == 0 && event.pageY == 0) return;
-                
+
                 var target = event.target || event.srcElement;
-                if (!(elm[0].contains(target) || targetInFilter(target, attr.offClickFilter))) {
+                if (!(elm[0].contains(target) || targetInFilter(target, offClickFilter))) {
                     scope.$apply(scope.offClick());
                 }
             }
