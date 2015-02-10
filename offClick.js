@@ -38,7 +38,7 @@ angular.module('offClick',[])
             });
 
             var offClickFilter;
-            attrs.$observe('offClickFilter', function(value) {
+            attr.$observe('offClickFilter', function(value) {
                 offClickFilter = value;
             });
 
