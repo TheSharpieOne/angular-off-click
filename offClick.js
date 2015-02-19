@@ -20,14 +20,14 @@ angular.module('offClick', [])
                     $rootScope.$watch(attr.offClickIf, function (newVal, oldVal) {
                         if (newVal && !oldVal) {
                             $timeout(function () {
-                                $document.on('click.offclick', handler);
+                                $document.on('click', handler);
                             });
                         } else if (!newVal) {
-                            $document.off('click.offclick', handler);
+                            $document.off('click', handler);
                         }
                     });
                 } else {
-                    $document.on('click.offclick', handler);
+                    $document.on('click', handler);
                 }
 
                 attr.$observe('offClickFilter', function (value) {
