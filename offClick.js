@@ -1,13 +1,31 @@
 angular.module('offClick', [])
-    .directive('offClick', ['$document', '$rootScope', '$timeout', '$parse', function ($document, $rootScope, $timeout, $parse) {
+    .directive('offClick', ['$document', '$rootScope', '$parse', function ($document, $rootScope, $parse) {
+    var id = 0;
+    var listeners = {};
 
-    function targetInFilter(target, filter) {
-        if (!target || !filter) return false;
-        var elms = angular.element(document.querySelectorAll(filter));
+    $document.on('click', offClickEventHandler);
+
+    function targetInFilter(target, elms) {
+        if (!target || !elms) return false;
         var elmsLen = elms.length;
         for (var i = 0; i < elmsLen; ++i)
         if (elms[i].contains(target)) return true;
         return false;
+    }
+
+    function offClickEventHandler(event) {
+        if (event.pageX == 0 && event.pageY == 0) return;
+        var target = event.target || event.srcElement;
+        angular.forEach(listeners, function (listener, i) {
+            if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
+                $rootScope.$evalAsync(function () {
+                    listener.cb(listener.scope, {
+                        $event: event
+                    });
+                })
+            }
+
+        });
     }
 
     return {
@@ -15,39 +33,46 @@ angular.module('offClick', [])
         compile: function ($element, attr) {
             var fn = $parse(attr.offClick);
             return function (scope, element) {
+                var elmId = id++;
                 var offClickFilter;
+                var removeWatcher;
+
                 if (attr.offClickIf) {
-                    $rootScope.$watch(attr.offClickIf, function (newVal, oldVal) {
-                        if (newVal && !oldVal) {
-                            $timeout(function () {
-                                $document.on('click', handler);
-                            });
+                    removeWatcher = $rootScope.$watch(function () {
+                        return $parse(attr.offClickIf)(scope);
+                    }, function (newVal) {
+                        if (newVal) {
+                            on();
                         } else if (!newVal) {
-                            $document.off('click', handler);
+                            off();
                         }
                     });
                 } else {
-                    $document.on('click', handler);
+                    on();
                 }
 
                 attr.$observe('offClickFilter', function (value) {
-                    offClickFilter = value;
+                    offClickFilter = document.querySelectorAll(scope.$eval(value));
                 });
 
-                function handler(event) {
-                    // This filters out artificial click events. Example: If you hit enter on a form to submit it, an
-                    // artificial click event gets triggered on the form's submit button.
-                    if (event.pageX == 0 && event.pageY == 0) return;
-
-                    var target = event.target || event.srcElement;
-                    if (!(element[0].contains(target) || targetInFilter(target, offClickFilter))) {
-                        var callback = function () {
-                            fn(scope, {
-                                $event: event
-                            });
-                        };
-                        scope.$apply(callback);
+                scope.$on('$destroy', function () {
+                    off();
+                    if (removeWatcher) {
+                        removeWatcher();
                     }
+                });
+
+                function on() {
+                    listeners[elmId] = {
+                        elm: element[0],
+                        cb: fn,
+                        scope: scope,
+                        offClickFilter: offClickFilter
+                    };
+                }
+
+                function off() {
+                    delete listeners[elmId];
                 }
             };
         }
