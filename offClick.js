@@ -6,7 +6,7 @@ angular.module('offClick', [])
         var elms = angular.element(document.querySelectorAll(filter));
         var elmsLen = elms.length;
         for (var i = 0; i < elmsLen; ++i)
-        if (elms[i].contains(target)) return true;
+        if (!$document.find(target).length > 0 || elms[i].contains(target)) return true;
         return false;
     }
 
