@@ -1,9 +1,9 @@
 angular.module('offClick', [])
-    .directive('offClick', ['$document', '$rootScope', '$parse', function ($document, $rootScope, $parse) {
+    .directive('offClick', [$rootScope', '$parse', function ($rootScope, $parse) {
     var id = 0;
     var listeners = {};
 
-    $document.on('click', offClickEventHandler);
+    document.addEventListener('click', offClickEventHandler, true);
 
     function targetInFilter(target, elms) {
         if (!target || !elms) return false;
