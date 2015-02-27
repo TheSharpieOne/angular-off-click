@@ -15,7 +15,7 @@ angular('yourAngularApp',['offClick']);
 Here we have a slide out navigation div that will appear when the user clicks a button. We want the div to go away when they click off of it (`off-click`).  We also want to make sure the button that triggers the div to open, also does initial close it (`off-click-filter`).
 ```html
 <button id="nav-toggle">Show Navigation</button>
-<div id="slide-out-nav" ng-show='showNav' off-click='showNav = false' off-click-filter='#nav-toggle' off-click-if='showNav'>
+<div id="slide-out-nav" ng-show="showNav" off-click="showNav = false" off-click-filter="'#nav-toggle'" off-click-if="showNav">
     ...
 </div>
 ```
