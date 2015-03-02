@@ -14,7 +14,6 @@ angular.module('offClick', [])
     }
 
     function offClickEventHandler(event) {
-        if (event.pageX == 0 && event.pageY == 0) return;
         var target = event.target || event.srcElement;
         angular.forEach(listeners, function (listener, i) {
             if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
