@@ -35,6 +35,8 @@ angular.module('offClick', [])
                 var elmId = id++;
                 var offClickFilter;
                 var removeWatcher;
+                
+                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
 
                 if (attr.offClickIf) {
                     removeWatcher = $rootScope.$watch(function () {
