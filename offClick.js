@@ -3,6 +3,7 @@ angular.module('offClick', [])
     var id = 0;
     var listeners = {};
 
+    document.addEventListener("touchend", offClickEventHandler, true);
     document.addEventListener('click', offClickEventHandler, true);
 
     function targetInFilter(target, elms) {
