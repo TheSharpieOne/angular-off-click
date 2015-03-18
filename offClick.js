@@ -1,50 +1,81 @@
-angular.module('offClick',[])
-.directive('offClick', ['$document', function ($document) {
-        
-    function targetInFilter(target,filter){
-        if(!target || !filter) return false;
-        var elms = angular.element(document.querySelectorAll(filter));
+angular.module('offClick', [])
+    .directive('offClick', ['$rootScope', '$parse', function ($rootScope, $parse) {
+    var id = 0;
+    var listeners = {};
+
+    document.addEventListener('click', offClickEventHandler, true);
+
+    function targetInFilter(target, elms) {
+        if (!target || !elms) return false;
         var elmsLen = elms.length;
-        for (var i = 0; i< elmsLen; ++i)
-            if(elms[i].contains(target)) return true;
+        for (var i = 0; i < elmsLen; ++i)
+        if (elms[i].contains(target)) return true;
         return false;
     }
-    
+
+    function offClickEventHandler(event) {
+        var target = event.target || event.srcElement;
+        angular.forEach(listeners, function (listener, i) {
+            if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
+                $rootScope.$evalAsync(function () {
+                    listener.cb(listener.scope, {
+                        $event: event
+                    });
+                })
+            }
+
+        });
+    }
+
     return {
         restrict: 'A',
-        scope: {
-            offClick: '&',
-            offClickIf: '&'
-        },
-        link: function (scope, elm, attr) {
-
-            if (attr.offClickIf) {
-                scope.$watch(scope.offClickIf, function (newVal, oldVal) {
-                        if (newVal && !oldVal) {
-                            $document.on('click', handler);
-                        } else if(!newVal){
-                            $document.off('click', handler);
-                        }
-                    }
-                );
-            } else {
-                $document.on('click', handler);
-            }
-
-            scope.$on('$destroy', function() {
-                $document.off('click', handler);
-            });
-
-            function handler(event) {
-                // This filters out artificial click events. Example: If you hit enter on a form to submit it, an
-                // artificial click event gets triggered on the form's submit button.
-                if (event.pageX == 0 && event.pageY == 0) return;
+        compile: function ($element, attr) {
+            var fn = $parse(attr.offClick);
+            return function (scope, element) {
+                var elmId = id++;
+                var offClickFilter;
+                var removeWatcher;
                 
-                var target = event.target || event.srcElement;
-                if (!(elm[0].contains(target) || targetInFilter(target, attr.offClickFilter))) {
-                    scope.$apply(scope.offClick());
+                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
+
+                if (attr.offClickIf) {
+                    removeWatcher = $rootScope.$watch(function () {
+                        return $parse(attr.offClickIf)(scope);
+                    }, function (newVal) {
+                        if (newVal) {
+                            on();
+                        } else if (!newVal) {
+                            off();
+                        }
+                    });
+                } else {
+                    on();
                 }
-            }
+
+                attr.$observe('offClickFilter', function (value) {
+                    offClickFilter = document.querySelectorAll(scope.$eval(value));
+                });
+
+                scope.$on('$destroy', function () {
+                    off();
+                    if (removeWatcher) {
+                        removeWatcher();
+                    }
+                });
+
+                function on() {
+                    listeners[elmId] = {
+                        elm: element[0],
+                        cb: fn,
+                        scope: scope,
+                        offClickFilter: offClickFilter
+                    };
+                }
+
+                function off() {
+                    delete listeners[elmId];
+                }
+            };
         }
     };
 }]);
