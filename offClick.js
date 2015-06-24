@@ -8,9 +8,7 @@ angular.module('offClick', [])
 
     function targetInFilter(target, elms) {
         if (!target || !elms) return false;
-        var elmsLen = elms.length;
-        for (var i = 0; i < elmsLen; ++i)
-        if (elms[i].contains(target)) return true;
+        if (angular.element(target).is(elms)) return true;
         return false;
     }
 
@@ -36,8 +34,8 @@ angular.module('offClick', [])
                 var elmId = id++;
                 var offClickFilter;
                 var removeWatcher;
-                
-                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
+
+                offClickFilter = scope.$eval(attr.offClickFilter);
 
                 if (attr.offClickIf) {
                     removeWatcher = $rootScope.$watch(function () {
@@ -54,7 +52,7 @@ angular.module('offClick', [])
                 }
 
                 attr.$observe('offClickFilter', function (value) {
-                    offClickFilter = document.querySelectorAll(scope.$eval(value));
+                    offClickFilter = scope.$eval(value);
                 });
 
                 scope.$on('$destroy', function () {
