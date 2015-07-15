@@ -9,8 +9,7 @@ angular.module('offClick', [])
     function targetInFilter(target, elms) {
         if (!target || !elms) return false;
         var elmsLen = elms.length;
-        for (var i = 0; i < elmsLen; ++i)
-        if (elms[i].contains(target)) {
+        for (var i = 0; i < elmsLen; ++i) {
             var currentElem = elms[i];
             var containsTarget = false;
             try {
