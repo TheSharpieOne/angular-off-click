@@ -2,35 +2,36 @@ angular.module('offClick', [])
     .directive('offClick', ['$rootScope', '$parse', function ($rootScope, $parse) {
     var id = 0;
     var listeners = {};
+    // add variable to detect touch users moving..
+    var touchMove = false;
 
+    // Add event listeners to handle various events. Destop will ignore touch events
+    document.addEventListener("touchstart", touchstartEventHandler, true);
+    document.addEventListener("touchmove", offClickEventHandler, true);
     document.addEventListener("touchend", offClickEventHandler, true);
     document.addEventListener('click', offClickEventHandler, true);
 
     function targetInFilter(target, elms) {
         if (!target || !elms) return false;
         var elmsLen = elms.length;
-        for (var i = 0; i < elmsLen; ++i) {
-            var currentElem = elms[i];
-            var containsTarget = false;
-            try {
-                containsTarget = currentElem.contains(target);
-            } catch (e) {
-                // If the node is not an Element (e.g., an SVGElement) node.contains() throws Exception in IE,
-                // see https://connect.microsoft.com/IE/feedback/details/780874/node-contains-is-incorrect
-                // In this case we use compareDocumentPosition() instead.
-                if (typeof currentElem.compareDocumentPosition !== 'undefined') {
-                    containsTarget = currentElem === target || Boolean(currentElem.compareDocumentPosition(target) & 16);
-                }
-            }
-
-            if (containsTarget) {
-                return true;
-            }
-        }
+        for (var i = 0; i < elmsLen; ++i)
+        if (elms[i].contains(target)) return true;
         return false;
     }
 
+    function touchstartEventHandler(){
+      touchMove = false;
+    }
+
     function offClickEventHandler(event) {
+        // If event is a touchmove adjust touchMove state
+        if(event.type === 'touchmove'){
+            touchMove = true;
+        }
+        // If moved stop function...
+        if(touchMove === true){
+            return false;
+        }
         var target = event.target || event.srcElement;
         angular.forEach(listeners, function (listener, i) {
             if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
