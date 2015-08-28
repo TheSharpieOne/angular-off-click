@@ -2,6 +2,8 @@ angular.module('offClick', [])
     .directive('offClick', ['$rootScope', '$parse', function ($rootScope, $parse) {
     var id = 0;
     var listeners = {};
+    // add variable to detect touch users moving..
+    var touchMove = false;
 
     // Add event listeners to handle various events. Destop will ignore touch events
     document.addEventListener("touchstart", touchstartEventHandler, true);
