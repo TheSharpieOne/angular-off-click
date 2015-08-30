@@ -6,7 +6,6 @@ angular.module('offClick', [])
     var touchMove = false;
 
     // Add event listeners to handle various events. Destop will ignore touch events
-    document.addEventListener("touchstart", touchStartEventHandler, true);
     document.addEventListener("touchmove", offClickEventHandler, true);
     document.addEventListener("touchend", offClickEventHandler, true);
     document.addEventListener('click', offClickEventHandler, true);
@@ -35,17 +34,18 @@ angular.module('offClick', [])
         return false;
     }
 
-    function touchStartEventHandler(){
-      touchMove = false;
-    }
-
     function offClickEventHandler(event) {
         // If event is a touchmove adjust touchMove state
-        if (event.type === 'touchmove') {
+        if( event.type === 'touchmove' ){
             touchMove = true;
+            // And end function
+            return false;
         }
-        // If moved stop function...
-        if (touchMove === true) {
+        // This will always fire on the touchend after the touchmove runs...
+        if( touchMove ){
+            // Reset touchmove to false
+            touchMove = false;
+            // And end function
             return false;
         }
         var target = event.target || event.srcElement;
