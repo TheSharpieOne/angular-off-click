@@ -55,7 +55,7 @@ angular.module('offClick', [])
                     listener.cb(listener.scope, {
                         $event: event
                     });
-                })
+                });
             }
 
         });
@@ -69,7 +69,7 @@ angular.module('offClick', [])
                 var elmId = id++;
                 var offClickFilter;
                 var removeWatcher;
-                
+
                 offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
 
                 if (attr.offClickIf) {
@@ -95,6 +95,7 @@ angular.module('offClick', [])
                     if (removeWatcher) {
                         removeWatcher();
                     }
+                    element = null;
                 });
 
                 function on() {
@@ -107,7 +108,7 @@ angular.module('offClick', [])
                 }
 
                 function off() {
-                    delete listeners[elmId];
+                    listeners[elmId] = null;
                 }
             };
         }
