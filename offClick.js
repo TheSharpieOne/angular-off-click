@@ -109,6 +109,7 @@ angular.module('offClick', [])
 
                 function off() {
                     listeners[elmId] = null;
+                    delete listeners[elmId];
                 }
             };
         }
