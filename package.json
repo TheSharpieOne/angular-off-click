@@ -1,0 +1,11 @@
+{
+  "name": "angular-off-click",
+  "version": "0.0.9",
+  "repository": {
+    "type": "git"
+  },
+  "main": "./offClick",
+  "dependencies": {
+    "angular": "*"
+  }
+}
