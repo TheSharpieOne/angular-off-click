@@ -50,7 +50,8 @@ angular.module('offClick', [])
         }
         var target = event.target || event.srcElement;
         angular.forEach(listeners, function (listener, i) {
-            if (!(listener.elm.contains(target) || targetInFilter(target, listener.offClickFilter))) {
+            var filter = listener.offClickFilter();
+            if (!(listener.elm.contains(target) || targetInFilter(target, filter))) {
                 $rootScope.$evalAsync(function () {
                     listener.cb(listener.scope, {
                         $event: event
@@ -70,8 +71,6 @@ angular.module('offClick', [])
                 var offClickFilter;
                 var removeWatcher;
 
-                offClickFilter = document.querySelectorAll(scope.$eval(attr.offClickFilter));
-
                 if (attr.offClickIf) {
                     removeWatcher = $rootScope.$watch(function () {
                         return $parse(attr.offClickIf)(scope);
@@ -86,10 +85,6 @@ angular.module('offClick', [])
                     on();
                 }
 
-                attr.$observe('offClickFilter', function (value) {
-                    offClickFilter = document.querySelectorAll(scope.$eval(value));
-                });
-
                 scope.$on('$destroy', function () {
                     off();
                     if (removeWatcher) {
@@ -103,7 +98,9 @@ angular.module('offClick', [])
                         elm: element[0],
                         cb: fn,
                         scope: scope,
-                        offClickFilter: offClickFilter
+                        offClickFilter: function(){ 
+                            return document.querySelectorAll(scope.$eval(attr.offClickFilter)); 
+                        }
                     };
                 }
 
