@@ -6,6 +6,25 @@
     ".jshintrc",
     "**/*.txt"
   ],
+  "main": [
+    "./dist/angular-off-click.js"
+  ],
+  "license": "MIT",
+  "keywords":[
+    "angular",
+    "off",
+    "click"
+  ],
+    "author": {
+    "name": "Evan Sharp",
+    "url":"https://github.com/TheSharpieOne"
+  },
+  "contributors": [
+    {
+      "name": "Ricardo Marques",
+      "url": "https://github.com/RicardoAlmeidaMarques"
+    }
+  ],
   "dependencies": {
     "angular": "*"
   }
