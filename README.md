@@ -7,10 +7,6 @@ It's like click, but when you don't click on your element.
 ```
 bower install angular-off-click --save
 ```
-or
-```
-npm install angular-off-click --save
-
 
 ```javascript
 angular('yourAngularApp',['offClick']);
