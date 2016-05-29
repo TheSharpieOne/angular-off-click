@@ -7,10 +7,6 @@ It's like click, but when you don't click on your element.
 ```
 bower install angular-off-click --save
 ```
-or
-```
-npm install angular-off-click --save
-
 
 ```javascript
 angular('yourAngularApp',['offClick']);
@@ -19,7 +15,7 @@ angular('yourAngularApp',['offClick']);
 <h4>Usage/Example</h4>
 Here we have a slide out navigation div that will appear when the user clicks a button. We want the div to go away when they click off of it (`off-click`).  We also want to make sure the button that triggers the div to open, also does initial close it (`off-click-filter`).
 ```html
-<button id="nav-toggle" off-click-filter="#slide-out-nav" ng-click="showNav = !showName">Show Navigation</button>
+<button id="nav-toggle" off-click-filter="#slide-out-nav" ng-click="showNav = !showNav">Show Navigation</button>
 <div id="slide-out-nav" ng-show="showNav" off-click="showNav = false" off-click-if="showNav">
     ...
 </div>
