@@ -1,10 +1,28 @@
 {
   "name": "angular-off-click",
-  "version": "0.0.10",
-  "main": "offClick.js",
+  "version": "1.0.0",
+  "main": [
+    "./dist/angular-off-click.js"
+  ],
   "ignore": [
     ".jshintrc",
     "**/*.txt"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "off",
+    "click"
+  ],
+  "author": {
+    "name": "Evan Sharp",
+    "url": "https://github.com/TheSharpieOne"
+  },
+  "contributors": [
+    {
+      "name": "Ricardo Marques",
+      "url": "https://github.com/RicardoAlmeidaMarques"
+    }
   ],
   "dependencies": {
     "angular": "*"
