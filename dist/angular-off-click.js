@@ -78,28 +78,28 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
             var elmId = id++;
             var removeWatcher = void 0;
 
-            var on = function on() {
-                listeners[elmId] = {
-                    elm: element[0],
-                    cb: fn,
-                    scope: scope
-                };
-            };
-
-            var off = function off() {
-                listeners[elmId] = null;
-                delete listeners[elmId];
-            };
-
-            if (attrs.offClickIf) {
-                removeWatcher = $rootScope.$watch(function () {
-                    return $parse(attrs.offClickIf)(scope);
-                }, function (newVal) {
-                    newVal && on() || !newVal && off();
-                });
-            } else on();
-
             return function (scope, element) {
+                var on = function on() {
+                    listeners[elmId] = {
+                        elm: element[0],
+                        cb: fn,
+                        scope: scope
+                    };
+                };
+
+                var off = function off() {
+                    listeners[elmId] = null;
+                    delete listeners[elmId];
+                };
+
+                if (attrs.offClickIf) {
+                    removeWatcher = $rootScope.$watch(function () {
+                        return $parse(attrs.offClickIf)(scope);
+                    }, function (newVal) {
+                        newVal && on() || !newVal && off();
+                    });
+                } else on();
+
                 scope.$on('$destroy', function () {
                     off();
                     if (removeWatcher) {
@@ -113,18 +113,17 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
 }]);
 angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "$parse", function (OffClickFilterCache, $parse) {
     var filters = void 0;
-    var addFiltersToCache = function addFiltersToCache(filters) {
-        filters.forEach(function (filter) {
-            OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
-        });
-    };
+
     return {
         restrict: 'A',
         compile: function compile(elem, attrs) {
-            addFiltersToCache($parse(attrs.OffClickFilterCache).split(',').map(function (x) {
-                return x.trim();
-            }));
             return function (scope, element) {
+                $parse(attrs.offClickFilter)(scope).split(',').map(function (x) {
+                    return x.trim();
+                }).forEach(function (filter) {
+                    OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
+                });
+
                 scope.$on('$destroy', function () {
                     element = null;
                     filters.forEach(function (filter) {
