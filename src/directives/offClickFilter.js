@@ -6,7 +6,9 @@ angular.module('offClick')
         restrict:'A',
         compile : (elem, attrs)  => {
             return (scope, element) => {
-                $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim()).forEach(filter => {
+                filters = $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim());
+
+                filters.forEach(filter => {
                     OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(elem[0]) : OffClickFilterCache[filter] = [elem[0]];
                 });
 
