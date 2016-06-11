@@ -1,12 +1,10 @@
 {
   "name": "angular-off-click",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git"
   },
-  "main": [
-    "./dist/angular-off-click.js"
-  ],
+  "main": "./dist/angular-off-click.js",
   "scripts": {
     "build": "gulp build"
   },
