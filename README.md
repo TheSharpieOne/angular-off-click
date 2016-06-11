@@ -35,5 +35,8 @@ Here we have a slide out navigation div that will appear when the user clicks a 
 ```
 
 The `off-click` attribute is the expression or function that will execute each time the user doesn't click on your element (or filter)<br />
+
 The optional `off-click-if` attribute is an expression that will determine if the `off-click` should trigger or not.<br/>
-The optional `off-click-filter` directive allows you to pass a comma separated list of targets whose `off-click` will not be triggered when the element `off-click-filter` was applied to is clicked (gets parsed as javascript, so remember to wrap in single quotes)
+
+The included `off-click-filter` directive allows you to pass a comma separated list of targets whose `off-click` will not be triggered when the element `off-click-filter` was applied to is clicked (gets parsed as javascript, so remember to wrap in single quotes).
+If you pass `off-click-filter="'*'"` that element will be a filter for every off-click on the page.

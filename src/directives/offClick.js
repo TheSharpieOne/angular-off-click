@@ -45,7 +45,7 @@ angular.module('offClick')
         }
         const target = event.target || event.srcElement;
         angular.forEach(listeners, (listener, i) => {
-            let filters=[];
+            let filters = OffClickFilterCache['*'] || [];
             if(listener.elm.id && listener.elm.id !== '') {
                 if(OffClickFilterCache['#' + listener.elm.id]) filters = filters.concat(OffClickFilterCache['#'+listener.elm.id]);
             }
