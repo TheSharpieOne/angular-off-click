@@ -8,10 +8,18 @@ It's like click, but when you don't click on your element.
 ```
 npm install angular-off-click --save
 ```
+```html
+<script scr="node_modules/angular-off-click/dist/angular-off-click.js"></script>
+```
+
 -OR-
 ```
 bower install angular-off-click --save
 ```
+```html
+<script scr="bower_components/angular-off-click/dist/angular-off-click.js"></script>
+```
+
 -THEN-
 ```javascript
 angular('yourAngularApp',['offClick']);
