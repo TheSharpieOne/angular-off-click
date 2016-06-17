@@ -127,7 +127,6 @@ angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "
                 });
 
                 scope.$on('$destroy', function () {
-                    element = null;
                     filters.forEach(function (filter) {
                         if (OffClickFilterCache[filter].length > 1) {
                             OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]), 1);
@@ -136,11 +135,13 @@ angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "
                             delete OffClickFilterCache[filter];
                         }
                     });
+                    element = null;
                 });
             };
         }
     };
 }]);
+
 angular.module('offClick').factory('OffClickFilterCache', function () {
     var filterCache = {};
     return filterCache;
