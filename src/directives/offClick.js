@@ -73,40 +73,38 @@ angular.module('offClick')
 
     return {
         restrict: 'A',
-        compile: (elem, attrs) => {
+        link: (scope, element, attrs) => {
             const fn = $parse(attrs.offClick);
 
             const elmId = id++;
             let removeWatcher;
 
-            return (scope, element) => {
-                const on = () => {
-                    listeners[elmId] = {
-                        elm: element[0],
-                        cb: fn,
-                        scope: scope
-                    };
+            const on = () => {
+                listeners[elmId] = {
+                    elm: element[0],
+                    cb: fn,
+                    scope: scope
                 };
-
-                const off = () => {
-                    listeners[elmId] = null;
-                    delete listeners[elmId];
-                };
-
-                if (attrs.offClickIf) {
-                    removeWatcher = $rootScope.$watch(() => $parse(attrs.offClickIf)(scope), (newVal) => {
-                        newVal && on() || !newVal && off()
-                    });
-                } else on();
-
-                scope.$on('$destroy', () => {
-                    off();
-                    if (removeWatcher) {
-                        removeWatcher();
-                    }
-                    element = null;
-                });
             };
+
+            const off = () => {
+                listeners[elmId] = null;
+                delete listeners[elmId];
+            };
+
+            if (attrs.offClickIf) {
+                removeWatcher = $rootScope.$watch(() => $parse(attrs.offClickIf)(scope), (newVal) => {
+                    newVal && on() || !newVal && off()
+                });
+            } else on();
+
+            scope.$on('$destroy', () => {
+                off();
+                if (removeWatcher) {
+                    removeWatcher();
+                }
+                element = null;
+            });
         }
     };
 });
