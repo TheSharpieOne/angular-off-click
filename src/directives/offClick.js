@@ -76,10 +76,10 @@ angular.module('offClick')
         compile: (elem, attrs) => {
             const fn = $parse(attrs.offClick);
 
-            const elmId = id++;
-            let removeWatcher;
-
             return (scope, element) => {
+                const elmId = id++;
+                let removeWatcher;
+
                 const on = () => {
                     listeners[elmId] = {
                         elm: element[0],
