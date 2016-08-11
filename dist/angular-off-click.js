@@ -75,10 +75,10 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
         compile: function compile(elem, attrs) {
             var fn = $parse(attrs.offClick);
 
-            var elmId = id++;
-            var removeWatcher = void 0;
-
             return function (scope, element) {
+                var elmId = id++;
+                var removeWatcher = void 0;
+
                 var on = function on() {
                     listeners[elmId] = {
                         elm: element[0],
@@ -111,6 +111,7 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
         }
     };
 }]);
+
 angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "$parse", function (OffClickFilterCache, $parse) {
     var filters = void 0;
 
