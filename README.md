@@ -9,7 +9,7 @@ It's like click, but when you don't click on your element.
 npm install angular-off-click --save
 ```
 ```html
-<script scr="node_modules/angular-off-click/dist/angular-off-click.js"></script>
+<script src="node_modules/angular-off-click/dist/angular-off-click.js"></script>
 ```
 
 -OR-
@@ -17,7 +17,7 @@ npm install angular-off-click --save
 bower install angular-off-click --save
 ```
 ```html
-<script scr="bower_components/angular-off-click/dist/angular-off-click.js"></script>
+<script src="bower_components/angular-off-click/dist/angular-off-click.js"></script>
 ```
 
 -THEN-
