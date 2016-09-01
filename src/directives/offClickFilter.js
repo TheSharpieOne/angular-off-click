@@ -14,7 +14,7 @@ angular.module('offClick')
 
                 scope.$on('$destroy',()  => {
                     filters.forEach((filter) => {
-                        if(OffClickFilterCache[filter].length > 1)  {
+                        if(angular.isArray(OffClickFilterCache[filter]) && OffClickFilterCache[filter].length > 1)  {
                             OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]), 1);
                         }
                         else {
