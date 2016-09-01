@@ -39,4 +39,4 @@ The `off-click` attribute is the expression or function that will execute each t
 The optional `off-click-if` attribute is an expression that will determine if the `off-click` should trigger or not.<br/>
 
 The included `off-click-filter` directive allows you to pass a comma separated list of targets whose `off-click` will not be triggered when the element `off-click-filter` was applied to is clicked (gets parsed as javascript, so remember to wrap in single quotes).
-If you pass `off-click-filter="'*'"` that element will be a filter for every off-click on the page.
+If you pass `off-click-filter="'*'"` that element will be a filter for every off-click on the page. The value is an angular expression and as such, you can also pass dynamic values like so: `off-click-filter="'#' + myIdInScope"` and `off-click-filter="myScopedVar"`.
