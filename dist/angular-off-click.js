@@ -129,7 +129,7 @@ angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "
 
                 scope.$on('$destroy', function () {
                     filters.forEach(function (filter) {
-                        if (OffClickFilterCache[filter].length > 1) {
+                        if (angular.isArray(OffClickFilterCache[filter]) && OffClickFilterCache[filter].length > 1) {
                             OffClickFilterCache[filter].splice(OffClickFilterCache[filter].indexOf(element[0]), 1);
                         } else {
                             OffClickFilterCache[filter] = null;
