@@ -101,6 +101,9 @@ angular.module('offClick')
 
                 scope.$on('$destroy', () => {
                     off();
+                    document.removeEventListener('touchmove', offClickEventHandler, true);
+                    document.removeEventListener("touchend", offClickEventHandler, true);
+                    document.removeEventListener('click', offClickEventHandler, true);
                     if (removeWatcher) {
                         removeWatcher();
                     }
