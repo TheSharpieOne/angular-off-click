@@ -102,6 +102,9 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
 
                 scope.$on('$destroy', function () {
                     off();
+                    document.removeEventListener('touchmove', offClickEventHandler, true);
+                    document.removeEventListener("touchend", offClickEventHandler, true);
+                    document.removeEventListener('click', offClickEventHandler, true);
                     if (removeWatcher) {
                         removeWatcher();
                     }
