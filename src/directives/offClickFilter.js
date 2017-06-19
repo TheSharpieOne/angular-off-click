@@ -1,12 +1,11 @@
 angular.module('offClick')
 .directive('offClickFilter', (OffClickFilterCache, $parse) => {
-    let filters;
 
     return {
         restrict:'A',
         compile : (elem, attrs)  => {
             return (scope, element) => {
-                filters = $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim());
+                let filters = $parse(attrs.offClickFilter)(scope).split(',').map(x => x.trim());
 
                 filters.forEach(filter => {
                     OffClickFilterCache[filter] ? OffClickFilterCache[filter].push(element[0]) : OffClickFilterCache[filter] = [element[0]];

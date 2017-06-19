@@ -113,13 +113,12 @@ angular.module('offClick').directive('offClick', ["$rootScope", "$parse", "OffCl
 }]);
 
 angular.module('offClick').directive('offClickFilter', ["OffClickFilterCache", "$parse", function (OffClickFilterCache, $parse) {
-    var filters = void 0;
 
     return {
         restrict: 'A',
         compile: function compile(elem, attrs) {
             return function (scope, element) {
-                filters = $parse(attrs.offClickFilter)(scope).split(',').map(function (x) {
+                var filters = $parse(attrs.offClickFilter)(scope).split(',').map(function (x) {
                     return x.trim();
                 });
 
