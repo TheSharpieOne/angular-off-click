@@ -5,6 +5,7 @@ angular-off-click
 It's like click, but when you don't click on your element.
 
 <h4>Installing</h4>
+
 ```
 npm install angular-off-click --save
 ```
